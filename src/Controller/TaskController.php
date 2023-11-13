@@ -6,10 +6,10 @@ use App\Entity\Task;
 use App\Form\TaskType;
 use App\Repository\TaskRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class TaskController extends AbstractController
 {
@@ -17,12 +17,12 @@ class TaskController extends AbstractController
     public function listAction(TaskRepository $taskRepository)
     {
         $tasks = $taskRepository->findAll();
-        
+
         return $this->render('task/task_list.html.twig', [
-            'tasks' => $tasks
+            'tasks' => $tasks,
         ]);
     }
-    
+
     #[Route('/task/create', name: 'create_task')]
     public function createAction(Request $request, EntityManagerInterface $em): Response
     {
@@ -33,6 +33,7 @@ class TaskController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $task = $form->getData();
+            $task->setUser($this->getUser());
 
             $em->persist($task);
             $em->flush();
@@ -43,7 +44,7 @@ class TaskController extends AbstractController
         }
 
         return $this->render('task/create_task.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ]);
     }
 
@@ -71,7 +72,7 @@ class TaskController extends AbstractController
         ]);
     }
 
-    #[Route('/task/{id}/toggle', name:'toggle_task')]
+    #[Route('/task/{id}/toggle', name: 'toggle_task')]
     public function toggleTaskAction(Task $task, EntityManagerInterface $em)
     {
         $task->toggle(!$task->isDone());
@@ -93,7 +94,7 @@ class TaskController extends AbstractController
         ]);
     }
 
-    #[Route('/task/{id}/delete', name:'delete_task')]
+    #[Route('/task/{id}/delete', name: 'delete_task')]
     public function deleteTaskAction(Task $task, EntityManagerInterface $em)
     {
         $em->remove($task);
