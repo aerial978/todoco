@@ -39,6 +39,7 @@ class UserController extends AbstractController
             $user = $form->getData();
             $password = $this->passwordHasher->hashPassword($user, $user->getPassword());
             $user->setPassword($password);
+            $user->setRoles([$request->request->all()['user']['roles']]);
 
             $this->em->persist($user);
             $this->em->flush();
@@ -63,6 +64,7 @@ class UserController extends AbstractController
             $user = $form->getData();
             $password = $this->passwordHasher->hashPassword($user, $user->getPassword());
             $user->setPassword($password);
+            $user->setRoles([$request->request->all()['user']['roles']]);
 
             $this->em->persist($user);
             $this->em->flush();

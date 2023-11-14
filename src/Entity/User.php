@@ -18,13 +18,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'string', length: 25)]
     private ?string $username = null;
 
-    #[ORM\Column(type: "string", length: 60)]
+    #[ORM\Column(type: 'string', length: 60)]
     private ?string $email = null;
 
     #[ORM\Column(type: 'json')]
     private $roles = [];
 
-    #[ORM\Column(type: "string", length: 255)]
+    #[ORM\Column(type: 'string', length: 255)]
     private ?string $password = null;
 
     public function getId(): ?int
