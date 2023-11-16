@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 class TaskController extends AbstractController
 {
@@ -95,12 +96,18 @@ class TaskController extends AbstractController
     }
 
     #[Route('/task/{id}/delete', name: 'delete_task')]
-    public function deleteTaskAction(Task $task, EntityManagerInterface $em)
+    public function deleteTaskAction(Task $task, EntityManagerInterface $em, AuthorizationCheckerInterface $authChecker)
     {
-        $em->remove($task);
-        $em->flush();
+        $currentUser = $this->getUser();
 
-        $this->addFlash('success', 'La tâche a bien été supprimée.');
+        if (($authChecker->isGranted('ROLE_ADMIN') && null === $task->getUser()) || ($authChecker->isGranted('ROLE_USER') && $currentUser === $task->getUser())) {
+            $em->remove($task);
+            $em->flush();
+
+            $this->addFlash('success', 'La tâche a bien été supprimée.');
+        } else {
+            $this->addFlash('error', 'Vous n\'avez pas les autorisations nécessaires pour supprimer cette tâche.');
+        }
 
         return $this->redirectToRoute('task_list');
     }
