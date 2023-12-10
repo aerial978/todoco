@@ -1,14 +1,15 @@
-{% extends 'base.html.twig' %}
+{% extends 'base_home.html.twig' %}
 
-{% block header_title %}
-    <h1>Bienvenue sur Todo List, l'application vous permettant de gérer l'ensemble de vos tâches sans effort !</h1>
-{% endblock %}
+{% block title %}Home{% endblock %}
 
-{% block body %}
-
-    <div class="row">
-        <a href="{{ path('create_task') }}" class="btn btn-success">Créer une nouvelle tâche</a>
-        <a href="{{ path('task_list') }}" class="btn btn-info">Consulter la liste des tâches à faire</a>
-        <a href="{{ path('completed_task_list')}}" class="btn btn-secondary">Consulter la liste des tâches terminées</a>
-    </div>
+{% block content %}
+    <header>
+        <div class="banner text-center">
+            <img class="img-fluid" src="{{ asset('img/todo-pic.jpg') }}" alt="img">
+            <p class="banner-text">
+            Unleash your productivity with <span>Todo&Co</span>. Organize your tasks, track your projects and simplify your daily life. 
+            Get started today and discover a new way to accomplish your goals.</p>
+                <a href="" class="btn btn-custom text-custom btn-lg mt-4">Get Started</a>
+        </div>
+    </header>
 {% endblock %}

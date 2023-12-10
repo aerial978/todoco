@@ -1,0 +1,13 @@
+*,
+::after,
+::before {
+    box-sizing: border-box;
+    font-family: $roboto-font;
+}
+
+body {
+    background-color: $white-light-color;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
