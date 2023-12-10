@@ -1,0 +1,31 @@
+.btn.btn-custom {
+    font-size: 1.125rem;
+    background-color: $purple-color;
+    color: $white-color;
+    border: 2px solid $purple-color;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+        background-color: $purple-light-color;
+        color: $purple-color;
+        border: 2px solid $purple-color;
+    }
+}
+
+.btn.btn-custom.text-custom {
+    font-size: 1.3rem;
+}
+
+.btn.btn-signin {
+    font-size: 1.125rem;
+    background-color: $purple-light-color;
+    color: $purple-color;
+    border: 2px solid $purple-color;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+        background-color: $purple-color;
+        color: $white-color;
+        border: 2px solid $purple-color;
+    }
+}
