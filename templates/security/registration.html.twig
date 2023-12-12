@@ -1,0 +1,36 @@
+{% extends 'base_home.html.twig' %}
+
+{% block title %}Registration{% endblock %}
+
+{% block content %}
+	<div class="row form-height justify-content-center mt-5">
+		<div class="col-lg-4">
+			<div class="custom-title-background">
+				<h2 class="text-center custom-title-color">Register</h2>
+			</div>
+			<div class="custom-form">
+				<div class="form-block">
+					{{ form_start(form, {'action' : path('registration')}) }}
+						{{ form_label(form.username) }}
+						{{ form_widget(form.username) }}
+						<span class="text-error">{{ form_errors(form.username) }}</span>
+						
+						{{ form_label(form.email) }}
+						{{ form_widget(form.email) }}
+						<span class="text-error">{{ form_errors(form.email) }}</span>
+						
+						{{ form_label(form.roles) }}
+						{{ form_widget(form.roles) }}
+						<span class="text-error">{{ form_errors(form.roles) }}</span>
+						
+						<span class="text-error">
+						{{ form_widget(form.plainPassword) }}
+						{{ form_errors(form.plainPassword) }}</span>
+						
+						<button type="submit" class="btn btn-custom w-100 mt-5">Go</button>
+					{{ form_end(form) }}
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

@@ -1,0 +1,49 @@
+/* security form */
+
+.form-height {
+    height: 80vh;
+}
+
+.custom-form {
+    background-color: white;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    border-radius: 0 0 5px 5px;
+    padding: 2rem;
+}
+
+.custom-title-background {
+    background-color: $purple-color;
+    font-weight: bold;
+    padding: 15px 0;
+    border-radius: 5px 5px 0 0;
+}
+
+.custom-title-color {
+    color: $white-color;
+}
+
+.custom-label-color {
+    color: $purple-color;
+    font-weight: 500;
+}
+
+/* other form */
+
+.form-background {
+    background-color: $purple-light-color;
+    padding: 15px 0;
+    border-radius: 5px;
+}
+
+.custom-checkbox {
+    margin-right: 10px;
+}
+
+span ul {
+    margin: 0;
+    padding: 0;
+}
+
+.text-error {
+    color : red;
+}
