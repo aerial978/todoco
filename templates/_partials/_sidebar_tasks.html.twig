@@ -1,0 +1,17 @@
+<div class="sidebar p-3">
+    <h4>Tasks</h4>
+    <ul>
+        <li class="sidebar-link">
+            <i class="bi bi-pencil-square"></i>
+            <a href=""> New Task</a>
+        </li>
+        <li class="sidebar-link {{app.request.attributes.get('_route') == 'task_list' ? 'active' : '' }}">
+            <i class="bi bi-card-list"></i>
+            <a href="{{ path('task_list') }}" class="{{app.request.attributes.get('_route') == 'task_list' ? 'active' : '' }}"> Tasks List</a>
+        </li>
+        <li class="sidebar-link">
+            <i class="bi bi-card-checklist"></i>
+            <a href=""> Completed Tasks List</a>
+        </li>
+    </ul>
+</div>

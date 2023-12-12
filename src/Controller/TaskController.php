@@ -14,14 +14,10 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 class TaskController extends AbstractController
 {
-    #[Route('/task', name: 'task_list')]
-    public function listAction(TaskRepository $taskRepository)
+    #[Route('/tasks/list', name: 'task_list')]
+    public function listAction()
     {
-        $tasks = $taskRepository->findAll();
-
-        return $this->render('task/task_list.html.twig', [
-            'tasks' => $tasks,
-        ]);
+        return $this->render('task/task_list.html.twig');
     }
 
     #[Route('/task/create', name: 'create_task')]

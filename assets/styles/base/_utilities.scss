@@ -16,8 +16,22 @@ body {
     background-color: $grey-color;
 }
 
+.custom-width {
+    max-width: 1600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 ul li {
     list-style-type: none;
     padding: 0;
     margin: 0;
+}
+
+ul li a {
+    text-decoration: none;
+}
+
+i {
+    font-size: 1.5rem;
 }
