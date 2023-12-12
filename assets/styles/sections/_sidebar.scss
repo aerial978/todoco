@@ -1,0 +1,51 @@
+.sidebar {
+    border: 2px solid $yellow-color;
+    border-radius: 5px;
+    background-color: $yellow-light-color;
+}
+
+.sidebar h4 {
+    font-weight: 600;
+}
+
+.sidebar ul {
+    padding-left: 0;
+}
+
+.sidebar-link {
+    background-color: $yellow-color;
+    border-bottom: 1px solid $black-color;
+    display: flex;
+    align-items: center;
+}
+
+.sidebar-link:first-child {
+    border-top: 1px solid $black-color;
+}
+
+.sidebar-link.active {
+    background-color: $white-color;
+}
+
+.sidebar-link a.active {
+    color: $yellow-color;
+}
+
+li.sidebar-link {
+    padding: 16px 25px;
+    font-size: 1rem;
+}
+
+.sidebar-link:hover {
+    background-color: $white-color;
+}
+
+.sidebar-link a {
+    color: $black-color;
+    font-weight: bold;
+    margin-left: 8px;
+}
+
+.sidebar-link:hover a {
+    color: $yellow-color;
+}
