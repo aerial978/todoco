@@ -1,0 +1,24 @@
+{% extends 'base_other.html.twig' %}
+
+{% block title %}Tasks Completed{% endblock %}
+
+{% block content %}
+    <div class="mb-3">
+        <h2 class="table-title">Completed Tasks List</h2>
+    </div>
+    <table class="task-table">
+        {% for task in tasks %}
+        <tr class="row task-item">
+            <td class="col-6">{{ task.title }}</td>
+            <td class="col-6">
+                <div class="button-task ms-auto">
+                    <a type="button" class="btn btn-success btn-sm" href="{{ path('task_edit', {'id': task.id}) }}">Edit</a>
+                </div>
+            </td>
+        </tr>
+        {% else %}
+            <div class="alert alert-warning" role="alert">There are no completed tasks yet</div>
+        {% endfor %}
+    </table>
+    <hr>
+{% endblock %}
