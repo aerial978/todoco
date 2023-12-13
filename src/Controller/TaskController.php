@@ -15,16 +15,20 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 class TaskController extends AbstractController
 {
     #[Route('/tasks/list', name: 'task_list')]
-    public function listAction()
+    public function listAction(TaskRepository $taskRepository)
     {
-        return $this->render('task/task_list.html.twig');
+        $tasks = $taskRepository->findAll();
+
+        return $this->render('task/list.html.twig', [
+            'tasks' => $tasks,
+        ]);
     }
 
-    #[Route('/task/create', name: 'create_task')]
+    #[Route('/tasks/create', name: 'task_create')]
     public function createAction(Request $request, EntityManagerInterface $em): Response
     {
         $task = new Task();
-        $form = $this->createForm(TaskType::class, $task);
+        $form = $this->createForm(TaskType::class, $task, ['display_isDone' => false]);
 
         $form->handleRequest($request);
 
@@ -35,18 +39,18 @@ class TaskController extends AbstractController
             $em->persist($task);
             $em->flush();
 
-            $this->addFlash('success', 'La tâche a été bien été ajoutée.');
+            $this->addFlash('success', 'Task has been added successfully.');
 
             return $this->redirectToRoute('task_list');
         }
 
-        return $this->render('task/create_task.html.twig', [
+        return $this->render('task/create.html.twig', [
             'form' => $form->createView(),
         ]);
     }
 
-    #[Route('/task/{id}/edit', name: 'edit_task')]
-    public function editAction(Task $task, Request $request, EntityManagerInterface $em): Response
+    #[Route('/tasks/{id}/edit', name: 'task_edit')]
+    public function editAction(Task $task, Request $request, EntityManagerInterface $em)
     {
         $form = $this->createForm(TaskType::class, $task);
 
@@ -58,51 +62,56 @@ class TaskController extends AbstractController
             $em->persist($task);
             $em->flush();
 
-            $this->addFlash('success', 'La tâche a bien été modifiée.');
+            $this->addFlash('success', 'Task has been modified.');
 
             return $this->redirectToRoute('task_list');
         }
 
-        return $this->render('task/edit_task.html.twig', [
+        return $this->render('task/edit.html.twig', [
             'form' => $form->createView(),
             'task' => $task,
         ]);
     }
 
-    #[Route('/task/{id}/toggle', name: 'toggle_task')]
+    #[Route('/tasks/{id}/toggle', name: 'task_toggle')]
     public function toggleTaskAction(Task $task, EntityManagerInterface $em)
     {
+        $isDone = !$task->isDone();
         $task->toggle(!$task->isDone());
         $em->persist($task);
         $em->flush();
 
-        $this->addFlash('success', sprintf('La tâche %s a bien été marquée comme faite.', $task->getTitle()));
+        if ($isDone) {
+            $this->addFlash('success', 'Task has been marked as done.');
+        } else {
+            $this->addFlash('success', 'Task has been marked as not done.');
+        }
 
         return $this->redirectToRoute('task_list');
     }
 
-    #[Route('/task/completed', name: 'completed_task_list')]
-    public function completedTaskListAction(TaskRepository $taskRepository)
+    #[Route('/tasks/completed', name: 'task_completed')]
+    public function completedTaskAction(TaskRepository $taskRepository)
     {
         $tasks = $taskRepository->findBy(['isDone' => true]);
 
-        return $this->render('task/completed_task_list.html.twig', [
+        return $this->render('task/completed_list.html.twig', [
             'tasks' => $tasks,
         ]);
     }
 
-    #[Route('/task/{id}/delete', name: 'delete_task')]
+    #[Route('/task/{id}/delete', name: 'task_delete')]
     public function deleteTaskAction(Task $task, EntityManagerInterface $em, AuthorizationCheckerInterface $authChecker)
     {
         $currentUser = $this->getUser();
 
-        if (($authChecker->isGranted('ROLE_ADMIN') && null === $task->getUser()) || ($authChecker->isGranted('ROLE_USER') && $currentUser === $task->getUser())) {
+        if ($authChecker->isGranted('ROLE_ADMIN') && null === $task->getUser() || $authChecker->isGranted('ROLE_USER') && $currentUser === $task->getUser()) {
             $em->remove($task);
             $em->flush();
 
-            $this->addFlash('success', 'La tâche a bien été supprimée.');
+            $this->addFlash('success', 'Task has been deleted');
         } else {
-            $this->addFlash('error', 'Vous n\'avez pas les autorisations nécessaires pour supprimer cette tâche.');
+            $this->addFlash('error', 'You do not have the necessary permissions to delete this task !');
         }
 
         return $this->redirectToRoute('task_list');

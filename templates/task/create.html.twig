@@ -1,0 +1,25 @@
+{% extends 'base_other.html.twig' %}
+
+{% block title %}Tasks Create{% endblock %}
+
+{% block content %}
+    <div class="mb-3">
+        <h2 class="table-title">New Task</h2>
+    </div>
+    <div class="row form-background">
+        {{ form_start(form, {'action' : path('task_create')}) }}
+            {{ form_label(form.title) }}
+		    {{ form_widget(form.title) }}
+		    <span class="text-error">{{ form_errors(form.title) }}</span>
+
+            {{ form_label(form.content) }}
+		    {{ form_widget(form.content) }}
+		    <span class="text-error">{{ form_errors(form.content) }}</span>
+            
+            <div class="form-button d-flex justify-content-end">
+                <button type="submit" class="btn btn-custom mt-4">Add Task</button>
+            </div>
+        {{ form_end(form) }}
+    </div>
+    <hr>
+{% endblock %}

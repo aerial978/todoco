@@ -76,4 +76,15 @@
     footer {
         font-size: 0.75rem;
     }
+
+    /* table */
+
+    .task-item .button-table {
+        width:100%;
+    }
+
+    .button-table.button-task {
+        display: flex;
+        justify-content: end;
+    }
 }
