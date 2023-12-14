@@ -1,0 +1,27 @@
+{% extends 'base_other.html.twig' %}
+
+{% block title %}Users List{% endblock %}
+
+{% block content %}
+	<div class="mb-3">
+		<h2 class="table-title">Users List</h2>
+	</div>
+	<table class="task-table">
+		<tbody>
+			{% for user in users %}
+				<tr class="row task-item">
+					<td class="col-4 title-item">{{ user.username }}</td>
+					<td class="col-3">{{ user.email }}</td>
+					<td class="col-5 button-table">
+						<div class="button-task ms-auto">
+							<a type="button" href="{{ path('user_edit', {'id' : user.id}) }}" class="btn btn-success btn-sm">Edit</a>
+						</div>
+					</td>
+				</tr>
+			{% else %}
+				<div class="alert alert-warning" role="alert">There are no users yet.</div>
+			{% endfor %}
+		</tbody>
+	</table>
+    <hr>
+{% endblock %}
