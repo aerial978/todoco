@@ -1,0 +1,22 @@
+.pagination .page-item a,
+.pagination .page-item span {
+    border: 1px solid $purple-color;
+}
+
+.pagination .page-item.active a,
+.pagination .page-item.active span {
+    background-color: $purple-color;
+    color: $purple-light-color;
+}
+
+.pagination .page-item:hover a {
+    background-color: $purple-color;
+    color: $purple-light-color;
+    border: 1px solid $purple-color;
+}
+
+.pagination .page-item.disabled a,
+.pagination .page-item.disabled span {
+    background-color: $purple-light-color;
+    color: $purple-color;
+}

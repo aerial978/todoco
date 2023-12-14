@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Form\UserType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,9 +20,14 @@ class UserController extends AbstractController
     }
 
     #[Route('/user/list', name: 'user_list')]
-    public function listAction(UserRepository $userRepository)
+    public function listAction(UserRepository $userRepository, PaginatorInterface $paginator, request $request)
     {
-        $users = $userRepository->findAll();
+        $data = $userRepository->findAll();
+        $users = $paginator->paginate(
+            $data,
+            $request->query->getInt('page', 1),
+            1
+        );
 
         return $this->render('user/list.html.twig', [
             'users' => $users,
@@ -32,9 +38,9 @@ class UserController extends AbstractController
     public function editAction(User $user, Request $request): Response
     {
         if (!$user) {
-            $this->addFlash('error', "User do not exist !");
+            $this->addFlash('error', 'User do not exist !');
         }
-        
+
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
@@ -46,7 +52,7 @@ class UserController extends AbstractController
             $this->em->persist($user);
             $this->em->flush();
 
-            $this->addFlash('success', "User has been modified");
+            $this->addFlash('success', 'User has been modified');
 
             return $this->redirectToRoute('user_list');
         }
