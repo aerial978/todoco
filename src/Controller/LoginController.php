@@ -12,6 +12,10 @@ class LoginController extends AbstractController
     #[Route('/login', name: 'login')]
     public function loginAction(AuthenticationUtils $authenticationUtils): Response
     {
+        if ($this->getUser()) {
+            return $this->redirectToRoute('task_list');
+        }
+
         $error = $authenticationUtils->getLastAuthenticationError();
         $lastUsername = $authenticationUtils->getLastUsername();
 

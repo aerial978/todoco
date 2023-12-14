@@ -1,4 +1,4 @@
-# Todo & Co
+# Todo&Co
 
 The ToDo & Co project is a daily task management application developed using the Symfony PHP framework. 
 

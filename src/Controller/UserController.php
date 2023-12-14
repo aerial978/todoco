@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class UserController extends AbstractController
 {
@@ -19,7 +20,8 @@ class UserController extends AbstractController
     {
     }
 
-    #[Route('/user/list', name: 'user_list')]
+    #[Route('/users/list', name: 'user_list')]
+    #[IsGranted('ROLE_ADMIN')]
     public function listAction(UserRepository $userRepository, PaginatorInterface $paginator, request $request)
     {
         $data = $userRepository->findAll();
@@ -35,6 +37,7 @@ class UserController extends AbstractController
     }
 
     #[Route('/users/{id}/edit', name: 'user_edit')]
+    #[IsGranted('ROLE_ADMIN')]
     public function editAction(User $user, Request $request): Response
     {
         if (!$user) {

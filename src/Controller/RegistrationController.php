@@ -20,6 +20,10 @@ class RegistrationController extends AbstractController
     #[Route('/registration', name: 'registration')]
     public function registerUser(Request $request): Response
     {
+        if ($this->getUser()) {
+            return $this->redirectToRoute('task_list');
+        }
+
         $user = new User();
         $form = $this->createForm(UserType::class, $user, ['includePlaceholder' => false]);
         $form->handleRequest($request);
