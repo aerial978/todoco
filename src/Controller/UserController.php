@@ -18,19 +18,23 @@ class UserController extends AbstractController
     {
     }
 
-    #[Route('/user', name: 'list_user')]
+    #[Route('/user/list', name: 'user_list')]
     public function listAction(UserRepository $userRepository)
     {
         $users = $userRepository->findAll();
 
-        return $this->render('user/user_list.html.twig', [
+        return $this->render('user/list.html.twig', [
             'users' => $users,
         ]);
     }
 
-    #[Route('/user/{id}/edit', name: 'edit_user')]
+    #[Route('/users/{id}/edit', name: 'user_edit')]
     public function editAction(User $user, Request $request): Response
     {
+        if (!$user) {
+            $this->addFlash('error', "User do not exist !");
+        }
+        
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
@@ -39,18 +43,17 @@ class UserController extends AbstractController
             $password = $this->passwordHasher->hashPassword($user, $user->getPassword());
             $user->setPassword($password);
             $user->setRoles([$request->request->all()['user']['roles']]);
-
             $this->em->persist($user);
             $this->em->flush();
 
-            $this->addFlash('success', "L'utilisateur a bien été modifié");
+            $this->addFlash('success', "User has been modified");
 
-            return $this->redirectToRoute('list_user');
+            return $this->redirectToRoute('user_list');
         }
 
-        return $this->render('user/edit_user.html.twig', [
+        return $this->render('user/edit.html.twig', [
             'form' => $form->createView(),
-             'user' => $user,
+            'user' => $user,
         ]);
     }
 }

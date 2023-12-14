@@ -1,0 +1,34 @@
+{% extends 'base_other.html.twig' %}
+
+{% block title %}Users Edit{% endblock %}
+
+{% block content %}
+    <div class="mb-3">
+        <h2 class="table-title">Edit User</h2>
+    </div>
+    <div class="row form-background">
+        {{ form_start(form, {'action' : path('user_edit', {'id' : user.id})}) }}
+            {{ form_label(form.username) }}
+            {{ form_widget(form.username) }}
+            <span class="text-error">{{ form_errors(form.username) }}</span>
+            
+            {{ form_label(form.email) }}
+            {{ form_widget(form.email) }}
+            <span class="text-error">{{ form_errors(form.email) }}</span>
+            
+            {{ form_label(form.roles) }}
+            {{ form_widget(form.roles) }}
+            <span class="text-error">{{ form_errors(form.roles) }}</span>
+            
+            <span class="text-error">
+                {{ form_widget(form.plainPassword) }}
+                {{ form_errors(form.plainPassword) }}
+            </span>
+
+            <div class="form-button d-flex justify-content-end">
+                <button type="submit" class="btn btn-custom mt-4">Submit</button>
+            </div>
+        {{ form_end(form) }}
+    </div>
+    <hr>
+{% endblock %}
