@@ -6,6 +6,7 @@ use App\Entity\Task;
 use App\Form\TaskType;
 use App\Repository\TaskRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,9 +16,14 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 class TaskController extends AbstractController
 {
     #[Route('/tasks/list', name: 'task_list')]
-    public function listAction(TaskRepository $taskRepository)
+    public function listAction(TaskRepository $taskRepository, PaginatorInterface $paginator, Request $request)
     {
-        $tasks = $taskRepository->findAll();
+        $data = $taskRepository->findAll();
+        $tasks = $paginator->paginate(
+            $data,
+            $request->query->getInt('page', 1),
+            6
+        );
 
         return $this->render('task/list.html.twig', [
             'tasks' => $tasks,
@@ -91,9 +97,14 @@ class TaskController extends AbstractController
     }
 
     #[Route('/tasks/completed', name: 'task_completed')]
-    public function completedTaskAction(TaskRepository $taskRepository)
+    public function completedTaskAction(TaskRepository $taskRepository, PaginatorInterface $paginator, Request $request)
     {
-        $tasks = $taskRepository->findBy(['isDone' => true]);
+        $data = $taskRepository->findBy(['isDone' => true]);
+        $tasks = $paginator->paginate(
+            $data,
+            $request->query->getInt('page', 1),
+            2
+        );
 
         return $this->render('task/completed_list.html.twig', [
             'tasks' => $tasks,
