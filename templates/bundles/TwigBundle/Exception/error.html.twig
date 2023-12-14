@@ -1,0 +1,10 @@
+{% extends 'base_error.html.twig' %}
+
+{% block content %}
+    <div class="block-error">
+        <img class="img-fluid" src="{{ asset('img/403.jpg') }}" alt="errorpage">
+        <h1>Internal server error</h1>
+        <h3>An internal server error has occurred. We apologize for the inconvenience caused.</h3>
+        <h3><a href="{{ path('app_home') }}" class="btn btn-custom text-custom btn-lg mt-4">Back</a></h3>
+    </div>
+{% endblock %}

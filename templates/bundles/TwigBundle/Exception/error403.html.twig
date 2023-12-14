@@ -1,0 +1,10 @@
+{% extends 'base_error.html.twig' %}
+
+{% block content %}
+    <div class="block-error">
+        <img class="img-fluid" src="{{ asset('img/403.jpg') }}" alt="errorpage">
+        <h1>Access denied</h1>
+        <h3>You do not have the necessary permissions to access this page.</h3>
+        <h3><a href="{{ path('app_home') }}" class="btn btn-custom text-custom btn-lg mt-4">Back</a></h3>
+    </div>
+{% endblock %}

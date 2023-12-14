@@ -12,10 +12,12 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class TaskController extends AbstractController
 {
     #[Route('/tasks/list', name: 'task_list')]
+    #[IsGranted('ROLE_USER')]
     public function listAction(TaskRepository $taskRepository, PaginatorInterface $paginator, Request $request)
     {
         $data = $taskRepository->findAll();
@@ -31,6 +33,7 @@ class TaskController extends AbstractController
     }
 
     #[Route('/tasks/create', name: 'task_create')]
+    #[IsGranted('ROLE_USER')]
     public function createAction(Request $request, EntityManagerInterface $em): Response
     {
         $task = new Task();
@@ -56,6 +59,7 @@ class TaskController extends AbstractController
     }
 
     #[Route('/tasks/{id}/edit', name: 'task_edit')]
+    #[IsGranted('ROLE_USER')]
     public function editAction(Task $task, Request $request, EntityManagerInterface $em)
     {
         $form = $this->createForm(TaskType::class, $task);
@@ -80,6 +84,7 @@ class TaskController extends AbstractController
     }
 
     #[Route('/tasks/{id}/toggle', name: 'task_toggle')]
+    #[IsGranted('ROLE_USER')]
     public function toggleTaskAction(Task $task, EntityManagerInterface $em)
     {
         $isDone = !$task->isDone();
@@ -97,6 +102,7 @@ class TaskController extends AbstractController
     }
 
     #[Route('/tasks/completed', name: 'task_completed')]
+    #[IsGranted('ROLE_USER')]
     public function completedTaskAction(TaskRepository $taskRepository, PaginatorInterface $paginator, Request $request)
     {
         $data = $taskRepository->findBy(['isDone' => true]);
@@ -111,12 +117,14 @@ class TaskController extends AbstractController
         ]);
     }
 
-    #[Route('/task/{id}/delete', name: 'task_delete')]
+    #[Route('/tasks/{id}/delete', name: 'task_delete')]
+    #[IsGranted('ROLE_USER')]
     public function deleteTaskAction(Task $task, EntityManagerInterface $em, AuthorizationCheckerInterface $authChecker)
     {
         $currentUser = $this->getUser();
 
-        if ($authChecker->isGranted('ROLE_ADMIN') && null === $task->getUser() || $authChecker->isGranted('ROLE_USER') && $currentUser === $task->getUser()) {
+        if ($authChecker->isGranted('ROLE_ADMIN') && null === $task->getUser()
+        || $authChecker->isGranted('ROLE_USER') && $currentUser === $task->getUser()) {
             $em->remove($task);
             $em->flush();
 
