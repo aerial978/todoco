@@ -9,7 +9,9 @@
             <p class="banner-text">
             Unleash your productivity with <span>Todo&Co</span>. Organize your tasks, track your projects and simplify your daily life. 
             Get started today and discover a new way to accomplish your goals.</p>
+            {% if not app.user %}
                 <a href="{{ path('registration') }}" class="btn btn-custom text-custom btn-lg mt-4">Get Started</a>
+            {% endif %}
         </div>
     </header>
 {% endblock %}

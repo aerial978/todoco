@@ -28,7 +28,7 @@ class UserController extends AbstractController
         $users = $paginator->paginate(
             $data,
             $request->query->getInt('page', 1),
-            1
+            6
         );
 
         return $this->render('user/list.html.twig', [
@@ -49,9 +49,9 @@ class UserController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $user = $form->getData();
-            $password = $this->passwordHasher->hashPassword($user, $user->getPassword());
-            $user->setPassword($password);
-            $user->setRoles([$request->request->all()['user']['roles']]);
+            //$password = $this->passwordHasher->hashPassword($user, $user->getPassword());
+            //$user->setPassword($password);
+            $user->setRoles([$request->request->get('user')['roles']]);
             $this->em->persist($user);
             $this->em->flush();
 

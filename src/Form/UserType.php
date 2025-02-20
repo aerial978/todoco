@@ -11,7 +11,6 @@ use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints as Assert;
 
 class UserType extends AbstractType
 {
@@ -29,11 +28,6 @@ class UserType extends AbstractType
                 'label_attr' => [
                     'class' => 'form-label mt-4 custom-label-color',
                 ],
-                'constraints' => [
-                    new Assert\NotBlank([
-                        'message' => 'Please enter a username !',
-                    ]),
-                ],
                 'empty_data' => '',
             ])
             ->add('email', EmailType::class, [
@@ -44,11 +38,6 @@ class UserType extends AbstractType
                 'label' => 'Email',
                 'label_attr' => [
                     'class' => 'form-label mt-4 custom-label-color',
-                ],
-                'constraints' => [
-                    new Assert\NotBlank([
-                        'message' => 'Please enter an email address !',
-                    ]),
                 ],
                 'empty_data' => '',
             ])
@@ -66,12 +55,8 @@ class UserType extends AbstractType
                 ],
                 'expanded' => false,
                 'multiple' => false,
-                'mapped' => false,
-                'constraints' => [
-                    new Assert\NotBlank([
-                        'message' => 'Please select a role !',
-                    ]),
-                ],
+                'mapped' => true,
+                'data' => $options['data']->getRoles()[0] ?? 'ROLE_USER',
             ])
             ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
@@ -89,15 +74,6 @@ class UserType extends AbstractType
                 ],
                 'second_options' => [
                     'label' => 'Password Confirmation',
-                ],
-                'constraints' => [
-                    new Assert\NotBlank([
-                        'message' => 'Please enter a password !',
-                    ]),
-                    new Assert\Regex([
-                        'pattern' => '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$#!%*?&])[A-Za-z\d@$#!%*?&]{8,}$/',
-                        'message' => 'Your password must contain at least 8 characters, one lowercase letter, one uppercase letter, one number and one special character !',
-                    ]),
                 ],
             ]);
     }

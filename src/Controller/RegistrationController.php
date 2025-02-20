@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Form\UserType;
+use App\Form\RegistrationType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,20 +20,12 @@ class RegistrationController extends AbstractController
     #[Route('/registration', name: 'registration')]
     public function registerUser(Request $request): Response
     {
-        if ($this->getUser()) {
-            return $this->redirectToRoute('task_list');
-        }
-
         $user = new User();
-        $form = $this->createForm(UserType::class, $user, ['includePlaceholder' => false]);
+        $form = $this->createForm(RegistrationType::class, $user, ['includePlaceholder' => false]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $plainPassword = $form->get('plainPassword')->getData();
-            $password = $this->passwordHasher->hashPassword($user, $plainPassword);
-            $user->setPassword($password);
-            $user->setRoles([$request->request->all()['user']['roles']]);
-
+            $user = $form->getData();
             $this->em->persist($user);
             $this->em->flush();
 
