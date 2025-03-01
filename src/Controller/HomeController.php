@@ -9,7 +9,7 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 class HomeController extends AbstractController
 {
-    #[Route('/home', name: 'app_home')]
+    #[Route('/', name: 'app_home')]
     public function indexAction(AuthorizationCheckerInterface $authChecker): Response
     {
         if ($authChecker->isGranted('ROLE_USER')) {
