@@ -16,6 +16,9 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class TaskController extends AbstractController
 {
+    /**
+     * Displays a paginated list of tasks.
+     */
     #[Route('/tasks/list', name: 'task_list')]
     #[IsGranted('ROLE_USER')]
     public function listAction(TaskRepository $taskRepository, PaginatorInterface $paginator, Request $request)
@@ -32,6 +35,9 @@ class TaskController extends AbstractController
         ]);
     }
 
+    /**
+     * Handles task creation.
+     */
     #[Route('/tasks/create', name: 'task_create')]
     #[IsGranted('ROLE_USER')]
     public function createAction(Request $request, EntityManagerInterface $em): Response
@@ -58,6 +64,9 @@ class TaskController extends AbstractController
         ]);
     }
 
+    /**
+     * Handles task editing.
+     */
     #[Route('/tasks/{id}/edit', name: 'task_edit')]
     #[IsGranted('ROLE_USER')]
     public function editAction(Task $task, Request $request, EntityManagerInterface $em)
@@ -83,6 +92,9 @@ class TaskController extends AbstractController
         ]);
     }
 
+    /**
+     * Toggles the completion status of a task.
+     */
     #[Route('/tasks/{id}/toggle', name: 'task_toggle')]
     #[IsGranted('ROLE_USER')]
     public function toggleTaskAction(Task $task, EntityManagerInterface $em)
@@ -101,6 +113,9 @@ class TaskController extends AbstractController
         return $this->redirectToRoute('task_list');
     }
 
+    /**
+     * Displays a paginated list of completed tasks.
+     */
     #[Route('/tasks/completed', name: 'task_completed')]
     #[IsGranted('ROLE_USER')]
     public function completedTaskAction(TaskRepository $taskRepository, PaginatorInterface $paginator, Request $request)
@@ -117,6 +132,9 @@ class TaskController extends AbstractController
         ]);
     }
 
+    /**
+     * Handles task deletion with permission checks.
+     */
     #[Route('/tasks/{id}/delete', name: 'task_delete')]
     #[IsGranted('ROLE_USER')]
     public function deleteTaskAction(Task $task, EntityManagerInterface $em, AuthorizationCheckerInterface $authChecker)

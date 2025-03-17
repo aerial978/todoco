@@ -16,10 +16,16 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class UserController extends AbstractController
 {
+    /**
+     * Constructor to initialize dependencies.
+     */
     public function __construct(private UserPasswordHasherInterface $passwordHasher, private EntityManagerInterface $em)
     {
     }
 
+    /**
+     * Displays a paginated list of users.
+     */
     #[Route('/users/list', name: 'user_list')]
     #[IsGranted('ROLE_ADMIN')]
     public function listAction(UserRepository $userRepository, PaginatorInterface $paginator, request $request)
@@ -36,26 +42,29 @@ class UserController extends AbstractController
         ]);
     }
 
+    /**
+     * Handles user editing.
+     * 
+     * Administrators can update a user's role. If an admin removes their own admin rights, they will be logged out.
+     */
     #[Route('/users/{id}/edit', name: 'user_edit')]
     #[IsGranted('ROLE_ADMIN')]
     public function editAction(User $user, Request $request): Response
     {
-        if (!$user) {
-            $this->addFlash('error', 'User do not exist !');
-        }
-
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $user = $form->getData();
-            //$password = $this->passwordHasher->hashPassword($user, $user->getPassword());
-            //$user->setPassword($password);
-            $user->setRoles([$request->request->get('user')['roles']]);
+            $newRoles = $form->get('roles')->getData();
+            $user->setRoles([$newRoles]);
             $this->em->persist($user);
             $this->em->flush();
 
             $this->addFlash('success', 'User has been modified');
+
+            if ($this->getUser() === $user && !in_array('ROLE_ADMIN', [$newRoles])) {                
+                return $this->redirectToRoute('logout');
+            }
 
             return $this->redirectToRoute('user_list');
         }

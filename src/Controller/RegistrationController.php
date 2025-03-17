@@ -13,10 +13,16 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class RegistrationController extends AbstractController
 {
+    /**
+     * Constructor to initialize dependencies.
+     */
     public function __construct(private UserPasswordHasherInterface $passwordHasher, private EntityManagerInterface $em)
     {
     }
 
+    /**
+     * Handles user registration.
+     */ 
     #[Route('/registration', name: 'registration')]
     public function registerUser(Request $request): Response
     {
