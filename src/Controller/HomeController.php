@@ -9,6 +9,7 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 class HomeController extends AbstractController
 {
+feature/unit-functional-tests
      /**
      * Handles the home page request.
      */
