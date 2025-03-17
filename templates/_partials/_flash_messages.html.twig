@@ -8,3 +8,8 @@
         {{ message }}
     </div>
 {% endfor %}
+{% for message in app.flashes('info') %}
+    <div class="alert alert-info mt-4">
+        {{ message }}
+    </div>
+{% endfor %}

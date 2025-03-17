@@ -80,3 +80,42 @@ Update .env file your database configuration
     http://localhost/todoco/tests/coverage/index.html
 ```
 
+## Webpack Encore Configuration
+
+Webpack encore is used to manage and compile fronend assets such as Javascript & CSS.
+
+* Install Webpack Encore
+
+```bash
+    composer require symfony/webpack-encore-bundle
+    npm install
+```
+
+* Compile Assets
+
+To compile & watch for changes in assets :
+
+```bash
+    npm run dev
+```
+
+For a production build :
+
+```bash
+    npm run build
+```
+
+* Webpack Configuration
+
+Webpack configuratio file is located at : 
+
+```bash
+    webpack.config.js
+```
+
+
+
+
+
+
+

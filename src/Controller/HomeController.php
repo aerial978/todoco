@@ -9,6 +9,9 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 class HomeController extends AbstractController
 {
+     /**
+     * Handles the home page request.
+     */
     #[Route('/home', name: 'app_home')]
     public function indexAction(AuthorizationCheckerInterface $authChecker): Response
     {

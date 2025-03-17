@@ -55,8 +55,7 @@ class UserType extends AbstractType
                 ],
                 'expanded' => false,
                 'multiple' => false,
-                'mapped' => true,
-                'data' => $options['data']->getRoles()[0] ?? 'ROLE_USER',
+                'mapped' => false,
             ])
             ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,

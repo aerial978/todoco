@@ -9,6 +9,9 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class LoginController extends AbstractController
 {
+     /**
+     * Displays the login form and handles authentication errors.
+     */
     #[Route('/login', name: 'login')]
     public function loginAction(AuthenticationUtils $authenticationUtils): Response
     {
@@ -21,6 +24,9 @@ class LoginController extends AbstractController
         ]);
     }
 
+    /**
+     * Logs out the user.
+     */
     #[Route('/logout', name: 'logout')]
     public function logout()
     {
